@@ -3,6 +3,7 @@
 Структура
 main.py
 templates/index.html
-templates/doctors.html
+templates/login.html
+templates/admin.html
 static/css/styles.css
 static/js/script.js

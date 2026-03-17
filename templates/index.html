@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <h1>Система онлайн запису до лікарів Medics</h1>
+    <h1>Лікарі {{ test }}</h1>
+    <div class="cards">
+        <div class="card">
+            <img src="https://placehold.co/600x400/EEE/31343C">
+            <div class="container">
+                <p>Ім'я: Валентина Петрівна</p>
+                <p>Спеціальність: проктологія</p>
+                <p>Стаж: 17 років</p>
+                <button class="btn-appointment">Записатися</button>
+            </div>
+        </div>
+        <div class="card">
+            <img src="https://placehold.co/600x400/EEE/31343C">
+            <div class="container">
+                <p>Ім'я: Петро Іванович</p>
+                <p>Спеціальність: кардіологія</p>
+                <p>Стаж: 23 роки</p>
+                <button class="btn-appointment">Записатися</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

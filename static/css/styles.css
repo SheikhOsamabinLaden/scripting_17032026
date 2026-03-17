@@ -1,0 +1,23 @@
+.cards {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  display: flex;
+}
+
+.card {
+  background: rgb(248, 248, 248);
+  width: 300px;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card img {
+  width: 100%;
+  display: block;
+}
+
+.container {
+  padding: 15px;
+}

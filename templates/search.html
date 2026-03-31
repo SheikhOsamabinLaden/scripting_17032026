@@ -6,15 +6,10 @@
 </head>
 <body>
     <h1>Система онлайн запису до лікарів Medics{% if session["login"] %}, вітаємо, {{ session["login"] }}{% endif %}</h1>
-    <a href="/profile" style="font-size: 30px;"><b>Мій профіль</b></a>
+    <b>Пошук</b>
     <h1>Лікарі {{ test }}</h1>
-    <br>
-    <input type="text" id="searchInput" placeholder="Введіть ім'я лікаря">
-    <select id="categorySelect">
-        <option value="0">All</option>
-    </select>
     <div class="cards">
     </div>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    
 </body>
 </html>

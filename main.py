@@ -11,6 +11,10 @@ app.secret_key = "pcmtofolwnzucvotykymgicopew,sjvlgm,6fp8fo6emn1wsn35v2j4"
 def api_doctors():
     return jsonify(doctors)
 
+@app.route("/api/occupations", methods=["GET"])
+def api_occupations():
+    return jsonify(occupations)
+
 @app.route("/")
 def index():
     test = "12345678"
@@ -36,7 +40,15 @@ def login():
 
 @app.route("/profile")
 def profile():
+    if (session.get("login") is None):
+        return redirect(url_for("login"))
     return render_template("profile.html")
+
+@app.route("/search")
+def search():
+    # if (session.get("login") is None):
+    #     return redirect(url_for("login"))
+    return render_template("search.html")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

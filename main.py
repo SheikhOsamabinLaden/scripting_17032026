@@ -15,6 +15,18 @@ def api_doctors():
 def api_occupations():
     return jsonify(occupations)
 
+@app.route("/api/contact", methods=["POST"])
+def api_contact():
+    name = request.form.get('name')
+    email = request.form.get('email')
+    message = request.form.get('message')
+    print(f"""
+name: {name}
+email: {email}
+------------
+message: {message}""")
+    return redirect(url_for("index"))
+
 @app.route("/")
 def index():
     test = "12345678"
@@ -49,6 +61,10 @@ def search():
     # if (session.get("login") is None):
     #     return redirect(url_for("login"))
     return render_template("search.html")
+
+@app.route("/contact")
+def contact():
+    return render_template("contact.html")
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

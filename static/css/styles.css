@@ -21,3 +21,300 @@
 .container {
   padding: 15px;
 }
+
+
+/* --- Global Styles & Variables --- */
+:root {
+    --medical-blue: #0077b6; /* Trustworthy hospital blue */
+    --medical-blue-hover: #023e8a;
+    --bg-light: #f8fafc; /* Very soft gray/blue for the background */
+    --white: #ffffff;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border-light: #e2e8f0;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    line-height: 1.6;
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto; /* Centers the whole page */
+}
+
+/* --- Typography --- */
+h1 {
+    font-size: 28px;
+    color: var(--medical-blue);
+    margin-bottom: 15px;
+    font-weight: 700;
+    border-bottom: 2px solid var(--border-light);
+    padding-bottom: 10px;
+}
+
+/* Specific fix for the second H1 to make it look like a section title */
+h1:nth-of-type(2) {
+    font-size: 24px;
+    margin-top: 40px;
+    border-bottom: none;
+    color: var(--text-main);
+}
+
+/* Profile Link Styling */
+a {
+    color: var(--medical-blue);
+    text-decoration: none;
+    display: inline-block;
+    background: var(--white);
+    padding: 10px 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-light);
+    transition: all 0.3s ease;
+}
+
+a:hover {
+    background: var(--medical-blue);
+    color: var(--white);
+    box-shadow: 0 4px 8px rgba(0, 119, 182, 0.2);
+}
+
+/* Overriding your inline 30px font-size to make it look like a modern button */
+a[href="/profile"] {
+    font-size: 18px !important; 
+    margin-top: 10px;
+}
+
+/* --- Search & Filters --- */
+input[type="text"], 
+select {
+    padding: 14px 20px;
+    font-size: 16px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background-color: var(--white);
+    color: var(--text-main);
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+}
+
+input[type="text"] {
+    width: 350px;
+    margin-right: 15px;
+}
+
+select {
+    width: 200px;
+    cursor: pointer;
+}
+
+input[type="text"]:focus, 
+select:focus {
+    border-color: var(--medical-blue);
+    box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.15);
+}
+
+/* --- Doctor Cards Grid Container --- */
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    margin-top: 20px;
+}
+
+/* --- Individual Doctor Card (For your JavaScript) --- */
+/* Assuming your JS creates divs with the class "card" inside ".cards" */
+.card {
+    background-color: var(--white);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 25px 20px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.03);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.08);
+    border-color: var(--medical-blue);
+}
+
+/* Assuming JS adds an h3 for the Doctor's name */
+.card h3 {
+    font-size: 20px;
+    color: var(--text-main);
+    margin-bottom: 5px;
+}
+
+/* Assuming JS adds a p for the Doctor's specialty */
+.card p {
+    font-size: 15px;
+    color: var(--text-muted);
+    margin-bottom: 20px;
+}
+
+/* Assuming JS adds a button to book an appointment */
+.card button {
+    background-color: var(--bg-light);
+    color: var(--medical-blue);
+    border: 1px solid var(--medical-blue);
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 6px;
+    cursor: pointer;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.card button:hover {
+    background-color: var(--medical-blue);
+    color: var(--white);
+}
+
+/* --- Responsive Design for Mobile --- */
+@media (max-width: 600px) {
+    input[type="text"], select {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    body {
+        padding: 15px;
+    }
+}
+
+/* --- Навігація --- */
+.nav-links {
+    display: flex;
+    gap: 15px; /* Відстань між кнопками */
+    margin-bottom: 20px;
+}
+
+.nav-links a {
+    font-size: 16px !important; /* Робимо кнопки акуратними */
+    margin-top: 0;
+}
+
+/* --- Контейнер для форми контактів --- */
+.contact-container {
+    max-width: 600px; /* Обмежуємо ширину форми, щоб вона не розтягувалась на весь екран */
+    background-color: var(--white);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    border: 1px solid var(--border-light);
+    margin-top: 20px;
+}
+
+/* --- Елементи форми --- */
+.contact-form .form-group {
+    margin-bottom: 20px;
+}
+
+.contact-form label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--text-main);
+}
+
+/* Перевизначаємо ширину інпутів для форми, щоб вони були на 100% ширини контейнера */
+.contact-form input[type="text"],
+.contact-form input[type="email"],
+.contact-form textarea {
+    width: 100%;
+    padding: 12px 15px;
+    font-size: 16px;
+    border: 1px solid var(--border-light);
+    border-radius: 8px;
+    background-color: var(--bg-light);
+    color: var(--text-main);
+    font-family: inherit;
+    transition: border-color 0.3s, box-shadow 0.3s, background-color 0.3s;
+    margin-bottom: 0;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    background-color: var(--white);
+    border-color: var(--medical-blue);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.15);
+}
+
+.contact-form textarea {
+    resize: vertical; /* Дозволяє змінювати розмір поля лише по висоті */
+}
+
+/* --- Кнопка відправки --- */
+.submit-btn {
+    background-color: var(--medical-blue);
+    color: var(--white);
+    border: none;
+    padding: 14px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s ease, transform 0.1s;
+}
+
+.submit-btn:hover {
+    background-color: var(--medical-blue-hover);
+}
+
+.submit-btn:active {
+    transform: scale(0.98); /* Ефект натискання */
+}
+
+
+/* --- Блок для нижньої кнопки контактів --- */
+.footer-link {
+    margin-top: 50px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-light);
+    text-align: center; /* Центруємо текст і кнопку */
+}
+
+.footer-link p {
+    color: var(--text-muted);
+    margin-bottom: 15px;
+    font-size: 16px;
+}
+
+/* Окремий стиль для кнопки профілю (щоб замінити ваш style="font-size: 30px") */
+.profile-btn {
+    font-size: 18px !important;
+    margin-bottom: 10px;
+}
+
+/* Стиль для кнопки контактів */
+.contact-btn {
+    background-color: var(--white);
+    color: var(--medical-blue);
+    font-size: 18px !important;
+    padding: 12px 25px;
+    border: 2px solid var(--medical-blue);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.contact-btn:hover {
+    background-color: var(--medical-blue);
+    color: var(--white);
+    box-shadow: 0 4px 10px rgba(0, 119, 182, 0.2);
+}

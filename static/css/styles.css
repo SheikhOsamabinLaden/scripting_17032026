@@ -94,7 +94,8 @@ a[href="/profile"] {
 }
 
 /* --- Search & Filters --- */
-input[type="text"], 
+input[type="text"],
+input[type="password"], 
 select {
     padding: 14px 20px;
     font-size: 16px;
@@ -317,4 +318,8 @@ select:focus {
     background-color: var(--medical-blue);
     color: var(--white);
     box-shadow: 0 4px 10px rgba(0, 119, 182, 0.2);
+}
+
+.login-form {
+    max-width: 200px;
 }

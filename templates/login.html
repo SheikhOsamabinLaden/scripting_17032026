@@ -5,12 +5,15 @@
      <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-<form action="/login" method="post">
+<form class="login-form" action="/login" method="post">
     <label for="login">Логін:</label><br>
-    <input type="text" id="login" name="login"><br>
+    <input type="text" id="login" name="login" value="{% if login_value %}{{login_value}}{% endif %}"><br>
     <label for="pass">Пароль:</label><br>
     <input type="password" id="pass" name="pass"><br><br>
-    <input type="submit" value="Submit">
+    {% if incorrect %}
+        <p style="color: red">incorrect password</p>
+    {% endif %}
+    <input type="submit" value="Submit" class="submit-btn" >
 </form> 
 </body>
 </html>

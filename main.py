@@ -1,10 +1,10 @@
 from flask import Flask, jsonify, request, redirect, url_for, session, render_template_string, render_template, make_response
 from doctors import *
 from users import *
+import db
 app = Flask(__name__)
 app.secret_key = "pcmtofolwnzucvotykymgicopew,sjvlgm,6fp8fo6emn1wsn35v2j4"
-
-
+# https://meet.google.com/nbv-ktvd-igi
 
 
 @app.route("/api/doctors", methods=["GET"])
@@ -38,15 +38,25 @@ def login():
         login = request.form.get('login')
         password = request.form.get('pass')
         print (f"{login} {password}")
-        for i in users:
-            if i["login"] == login and i["password"] == password:
-                session["login"] = login
-                session["password"] = password
-                res = make_response(redirect(url_for("index")))
-                res.set_cookie("username", i["login"])
-                return res
+        # for i in users:
+        #     if i["login"] == login and i["password"] == password:
+        #         session["login"] = login
+        #         session["password"] = password
+        #         res = make_response(redirect(url_for("index")))
+        #         res.set_cookie("username", i["login"])
+        #         return res
+        # else:
+        #     return "incorrect password"
+        login_try = db.check_user(login, password)
+        if  login_try:
+            session["login"] = login
+            session["password"] = password
+            res = make_response(redirect(url_for("index")))
+            res.set_cookie("username", login)
+            return res
         else:
-            return "incorrect password"
+           return render_template("login.html", incorrect=True, login_value=login)
+
     elif request.method == "GET":
         return render_template("login.html")
 

@@ -1,11 +1,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Medics</title>
+    <title>Мій профіль - Medics</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
 <body>
-    <p id="greets"></p>
-    <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
+    <h1>Система онлайн запису до лікарів Medics{% if session["login"] %}, вітаємо, {{ session["login"] }}{% endif %}</h1>
     
+    <div class="nav-links">
+        <a href="/"><b>Головна</b></a>
+        <a href="/contact"><b>Контакти</b></a>
+    </div>
+
+    <!-- JavaScript підставить сюди привітання -->
+    <h2 id="greets" class="profile-greeting">Завантаження...</h2>
+    
+    <hr class="profile-divider">
+
+    <h2>Мої записи</h2>
+    
+    <!-- Порожній контейнер, сюди JS додаватиме картки -->
+    <div class="appointments-list">
+        <!-- Картки генеруються через JS -->
+    </div>
+
+    <script src="{{ url_for('static', filename='js/profile.js') }}"></script>
 </body>
 </html>

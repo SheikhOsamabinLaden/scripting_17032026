@@ -9,11 +9,36 @@ app.secret_key = "pcmtofolwnzucvotykymgicopew,sjvlgm,6fp8fo6emn1wsn35v2j4"
 
 @app.route("/api/doctors", methods=["GET"])
 def api_doctors():
-    return jsonify(doctors)
+    doctors = db.get_doctors()
+    # print(doctors)
+    # for i in range(len(doctors)):
+    #     doctors[i]["name"] = f"{doctors[i]["name"]} {doctors[i]["patronym"]}"
+    return jsonify(db.get_doctors()) #return jsonify(doctors)
+
+def get_doctor_info(doctors, doctor_id):
+    for doctor in doctors:
+        if doctor['id'] == doctor_id:
+            return doctor['name'], doctor['occupations']['name']
+    return None, None
+
+@app.route("/api/appointments", methods=["GET"])
+def api_appointments():
+    appointments = db.get_appointments()
+    users_appointments = []
+    print(appointments)
+    doctors = db.get_doctors_with_occupation_names()
+    for i in appointments:
+        if (i["user_id"] == session["id"]):
+            users_appointments.append({
+                "doctorName": get_doctor_info(doctors, i["doctor_id"])["name"],
+                "occupation": get_doctor_info(doctors, i["doctor_id"])["occupation"],
+                "time": i["appointed_at"]
+            })
+    return jsonify(users_appointments)
 
 @app.route("/api/occupations", methods=["GET"])
 def api_occupations():
-    return jsonify(occupations)
+    return jsonify(db.get_occupations()) #return jsonify(occupations)
 
 @app.route("/api/contact", methods=["POST"])
 def api_contact():
@@ -49,6 +74,7 @@ def login():
         #     return "incorrect password"
         login_try = db.check_user(login, password)
         if  login_try:
+            session["id"] = db.get_user_by_login(login)[0]["id"]
             session["login"] = login
             session["password"] = password
             res = make_response(redirect(url_for("index")))

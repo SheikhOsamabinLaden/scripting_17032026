@@ -323,3 +323,100 @@ select:focus {
 .login-form {
     max-width: 200px;
 }
+
+
+/* --- Специфічні стилі для профілю --- */
+.profile-greeting {
+    font-size: 24px;
+    color: var(--text-main);
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.profile-divider {
+    border: 0;
+    height: 1px;
+    background-color: var(--border-light);
+    margin: 20px 0 30px 0;
+}
+
+/* --- Список записів (Колонка) --- */
+.appointments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Відстань між картками */
+    margin-top: 20px;
+}
+
+/* --- Горизонтальна картка запису --- */
+.appointment-card {
+    display: flex;
+    justify-content: space-between; /* Розносить текст і кнопку по краях */
+    align-items: center; /* Центрує елементи по вертикалі */
+    background-color: var(--white);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 20px 25px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.appointment-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.06);
+    border-color: var(--medical-blue);
+}
+
+.appointment-info h3 {
+    font-size: 20px;
+    color: var(--text-main);
+    margin-bottom: 5px;
+}
+
+.appointment-info .occupation {
+    font-size: 15px;
+    color: var(--medical-blue);
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.appointment-info .time {
+    font-size: 15px;
+    color: var(--text-muted);
+}
+
+/* --- Червона кнопка скасування --- */
+.btn-cancel {
+    background-color: var(--white);
+    color: #ef4444; /* Сучасний червоний */
+    border: 2px solid #ef4444;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-cancel:hover {
+    background-color: #ef4444;
+    color: var(--white);
+    box-shadow: 0 4px 10px rgba(239, 68, 68, 0.2);
+}
+
+.btn-cancel:active {
+    transform: scale(0.96);
+}
+
+/* --- Адаптивність горизонтальних карток для мобільних пристроїв --- */
+@media (max-width: 600px) {
+    .appointment-card {
+        flex-direction: column; /* На телефонах робимо вертикально */
+        align-items: flex-start;
+        gap: 15px;
+    }
+    
+    .appointment-actions, .btn-cancel {
+        width: 100%; /* Кнопка на всю ширину на мобільному */
+    }
+}

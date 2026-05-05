@@ -14,14 +14,14 @@ function handleChange() {
     for (i in doctors_json)
     {
         if (category != 0 && doctors_json[i]["occupation"] != category) { continue }
-        if (text != "" && !doctors_json[i]["name"].toLowerCase().includes(text)) { continue }
+        if (text != "" && !doctors_json[i]["name"].toLowerCase().includes(text) && !doctors_json[i]["patronym"].toLowerCase().includes(text)) { continue }
         const newCard = `
                 <div class="card">
                     <img src="https://placehold.co/600x400/EEE/31343C">
                     <div class="container">
-                        <p>Ім'я: ${doctors_json[i]["name"]}</p>
+                        <p>Ім'я: ${doctors_json[i]["name"]} ${doctors_json[i]["patronym"]}</p>
                         <p>Спеціальність: ${occupations_json.find(o => o.id === doctors_json[i]["occupation"])?.name}</p>
-                        <p>Стаж: ${doctors_json[i]["experience"]}</p>
+                        <p>Стаж: ${doctors_json[i]["experience"]} ${getYearAddition(doctors_json[i]["experience"])}</p>
                         <button class="btn-appointment">Записатися</button>
                     </div>
                 </div>
@@ -48,9 +48,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="card">
                     <img src="https://placehold.co/600x400/EEE/31343C">
                     <div class="container">
-                        <p>Ім'я: ${doctors_json[i]["name"]}</p>
+                        <p>Ім'я: ${doctors_json[i]["name"]} ${doctors_json[i]["patronym"]}</p>
                         <p>Спеціальність: ${occupations_json.find(o => o.id === doctors_json[i]["occupation"])?.name}</p>
-                        <p>Стаж: ${doctors_json[i]["experience"]}</p>
+                        <p>Стаж: ${doctors_json[i]["experience"]} ${getYearAddition(doctors_json[i]["experience"])}</p>
                         <button class="btn-appointment">Записатися</button>
                     </div>
                 </div>
@@ -64,3 +64,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     load();
 });
+
+function getYearAddition(n) {
+  const num = Math.abs(n);
+  const lastDigit = num % 10;
+  const lastTwoDigits = num % 100;
+
+  if (lastTwoDigits >= 11 && lastTwoDigits <= 14) {
+    return 'років';
+  }
+  if (lastDigit === 1) {
+    return 'рік';
+  }
+  if (lastDigit >= 2 && lastDigit <= 4) {
+    return 'роки';
+  }
+  return 'років';
+}

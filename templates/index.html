@@ -7,19 +7,35 @@
 <body>
     <h1>Система онлайн запису до лікарів Medics{% if session["login"] %}, вітаємо, {{ session["login"] }}{% endif %}</h1>
     <a href="/profile" style="font-size: 30px;"><b>Мій профіль</b></a>
-    <h1>Лікарі {{ test }}</h1>
+    <h1>Лікарі</h1>
     <br>
     <input type="text" id="searchInput" placeholder="Введіть ім'я лікаря">
     <select id="categorySelect">
-        <option value="0">All</option>
+        <option value="0">Усі спеціальності</option>
     </select>
     <div class="cards">
+    </div>
+
+    <!-- Модальне вікно для запису -->
+    <div id="appointmentModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Запис до: <span id="modalDoctorName"></span></h2>
+            <div id="scheduleContainer">
+                <!-- Сюди JS згенерує дні та години -->
+            </div>
+        </div>
     </div>
 
     <div class="footer-link">
         <p>Маєте запитання або проблеми із записом?</p>
         <a href="/contact" class="contact-btn"><b>Зв'язатися з нами</b></a>
     </div>
+    
+    <script>
+        // Передаємо змінну, чи авторизований користувач
+        const IS_LOGGED_IN = {% if session.get('id') %}true{% else %}false{% endif %};
+    </script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
 </html>

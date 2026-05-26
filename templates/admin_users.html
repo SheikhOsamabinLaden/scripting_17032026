@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body style="background-color: white; color: black; font-family: sans-serif; padding: 20px;">
+    <a href="/admin">← Назад</a>
+    <h2>Користувачі</h2>
+    <table border="1" cellpadding="5" cellspacing="0" style="margin-bottom: 20px;">
+        <tr><th>ID</th><th>Логін</th><th>Пароль</th><th>Адмін</th><th>Дії</th></tr>
+        {% for u in users %}
+        <tr>
+            <td>{{ u.id }}</td>
+            <td>{{ u.login }}</td>
+            <td>{{ u.password }}</td>
+            <td>{{ 'Так' if u.is_admin else 'Ні' }}</td>
+            <td>
+                <a href="/admin/users/edit/{{ u.id }}">Редагувати</a> | 
+                <a href="/admin/users/delete/{{ u.id }}" onclick="return confirm('Видалити?');">Видалити</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>Додати</h3>
+    <form method="POST">
+        Логін: <input type="text" name="login" required><br><br>
+        Пароль: <input type="text" name="password" required><br><br>
+        <label><input type="checkbox" name="is_admin"> Є адміністратором</label><br><br>
+        <button type="submit">Додати</button>
+    </form>
+</body>
+</html>

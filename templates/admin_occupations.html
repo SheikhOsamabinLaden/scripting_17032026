@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<body style="background-color: white; color: black; font-family: sans-serif; padding: 20px;">
+    <a href="/admin">← Назад</a>
+    <h2>Спеціальності</h2>
+    <table border="1" cellpadding="5" cellspacing="0" style="margin-bottom: 20px;">
+        <tr><th>ID</th><th>Назва</th><th>Дії</th></tr>
+        {% for o in occupations %}
+        <tr>
+            <td>{{ o.id }}</td>
+            <td>{{ o.name }}</td>
+            <td>
+                <a href="/admin/occupations/edit/{{ o.id }}">Редагувати</a> | 
+                <a href="/admin/occupations/delete/{{ o.id }}" onclick="return confirm('Видалити?');">Видалити</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>Додати</h3>
+    <form method="POST">
+        Назва: <input type="text" name="name" required><br><br>
+        <button type="submit">Додати</button>
+    </form>
+</body>
+</html>

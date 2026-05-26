@@ -22,7 +22,6 @@
             <span class="close-btn">&times;</span>
             <h2>Запис до: <span id="modalDoctorName"></span></h2>
             <div id="scheduleContainer">
-                <!-- Сюди JS згенерує дні та години -->
             </div>
         </div>
     </div>
@@ -33,7 +32,6 @@
     </div>
     
     <script>
-        // Передаємо змінну, чи авторизований користувач
         const IS_LOGGED_IN = {% if session.get('id') %}true{% else %}false{% endif %};
     </script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>

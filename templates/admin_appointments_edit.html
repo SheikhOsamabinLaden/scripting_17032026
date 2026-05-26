@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<body style="background-color: white; color: black; font-family: sans-serif; padding: 20px;">
+    <a href="/admin/appointments">← Назад</a>
+    <h2>Редагувати запис #{{ appointment.id }}</h2>
+    <form method="POST">
+        Час прийому (YYYY-MM-DDTHH:MM): <input type="datetime-local" name="appointed_at" value="{{ appointment.appointed_at }}" required><br><br>
+        Лікар: 
+        <select name="doctor_id" required>
+            {% for d in doctors %}<option value="{{ d.id }}" {% if d.id == appointment.doctor_id %}selected{% endif %}>{{ d.name }}</option>{% endfor %}
+        </select><br><br>
+        Користувач: 
+        <select name="user_id" required>
+            {% for u in users %}<option value="{{ u.id }}" {% if u.id == appointment.user_id %}selected{% endif %}>{{ u.login }}</option>{% endfor %}
+        </select><br><br>
+        Коментар: <textarea name="comments">{{ appointment.comments }}</textarea><br><br>
+        <button type="submit">Зберегти</button>
+    </form>
+</body>
+</html>

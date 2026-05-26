@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request, redirect, url_for, session, render_te
 from doctors import *
 from users import *
 import db
+from functools import wraps
 app = Flask(__name__)
 app.secret_key = "pcmtofolwnzucvotykymgicopew,sjvlgm,6fp8fo6emn1wsn35v2j4"
 
@@ -85,9 +86,11 @@ def login():
         password = request.form.get('pass')
         login_try = db.check_user(login, password)
         if login_try:
-            session["id"] = db.get_user_by_login(login)[0]["id"]
+            user_data = db.get_user_by_login(login)[0]
+            session["id"] = user_data["id"]
             session["login"] = login
             session["password"] = password
+            session["is_admin"] = user_data.get("is_admin", False) # Зберігаємо статус адміна
             res = make_response(redirect(url_for("index")))
             res.set_cookie("username", login)
             return res
@@ -110,6 +113,144 @@ def search():
 @app.route("/contact")
 def contact():
     return render_template("contact.html")
+
+def admin_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get("is_admin"):
+            return "Доступ заборонено (Тільки для адміністраторів)", 403
+        return f(*args, **kwargs)
+    return decorated_function
+
+@app.route("/admin")
+@admin_required
+def admin_dashboard():
+    return render_template("admin.html")
+
+# --- USERS ---
+@app.route("/admin/users", methods=["GET", "POST"])
+@admin_required
+def admin_users():
+    if request.method == "POST":
+        db.create_user(
+            request.form.get("login"),
+            request.form.get("password"),
+            request.form.get("is_admin") == "on"
+        )
+        return redirect(url_for("admin_users"))
+    return render_template("admin_users.html", users=db.get_users())
+
+@app.route("/admin/users/delete/<int:id>")
+@admin_required
+def admin_delete_user(id):
+    db.delete_user(id)
+    return redirect(url_for("admin_users"))
+
+@app.route("/admin/users/edit/<int:id>", methods=["GET", "POST"])
+@admin_required
+def admin_edit_user(id):
+    if request.method == "POST":
+        db.update_user(
+            id, 
+            request.form.get("login"), 
+            request.form.get("password"), 
+            request.form.get("is_admin") == "on"
+        )
+        return redirect(url_for("admin_users"))
+    user = db.get_user_by_id(id)[0]
+    return render_template("admin_users_edit.html", user=user)
+
+# --- OCCUPATIONS ---
+@app.route("/admin/occupations", methods=["GET", "POST"])
+@admin_required
+def admin_occupations():
+    if request.method == "POST":
+        db.create_occupation(request.form.get("name"))
+        return redirect(url_for("admin_occupations"))
+    return render_template("admin_occupations.html", occupations=db.get_occupations())
+
+@app.route("/admin/occupations/delete/<int:id>")
+@admin_required
+def admin_delete_occupation(id):
+    db.delete_occupation(id)
+    return redirect(url_for("admin_occupations"))
+
+@app.route("/admin/occupations/edit/<int:id>", methods=["GET", "POST"])
+@admin_required
+def admin_edit_occupation(id):
+    if request.method == "POST":
+        db.update_occupation(id, request.form.get("name"))
+        return redirect(url_for("admin_occupations"))
+    occupation = db.get_occupation_by_id(id)[0]
+    return render_template("admin_occupations_edit.html", occupation=occupation)
+
+# --- DOCTORS ---
+@app.route("/admin/doctors", methods=["GET", "POST"])
+@admin_required
+def admin_doctors():
+    if request.method == "POST":
+        db.create_doctor(
+            request.form.get("name"),
+            request.form.get("patronym"),
+            request.form.get("occupation_id")
+        )
+        return redirect(url_for("admin_doctors"))
+    return render_template("admin_doctors.html", doctors=db.get_doctors(), occupations=db.get_occupations())
+
+@app.route("/admin/doctors/delete/<int:id>")
+@admin_required
+def admin_delete_doctor(id):
+    db.delete_doctor(id)
+    return redirect(url_for("admin_doctors"))
+
+@app.route("/admin/doctors/edit/<int:id>", methods=["GET", "POST"])
+@admin_required
+def admin_edit_doctor(id):
+    if request.method == "POST":
+        db.update_doctor(
+            id,
+            request.form.get("name"),
+            request.form.get("patronym"),
+            request.form.get("occupation_id")
+        )
+        return redirect(url_for("admin_doctors"))
+    doctor = db.get_doctor_by_id(id)[0]
+    return render_template("admin_doctors_edit.html", doctor=doctor, occupations=db.get_occupations())
+
+# --- APPOINTMENTS ---
+@app.route("/admin/appointments", methods=["GET", "POST"])
+@admin_required
+def admin_appointments():
+    if request.method == "POST":
+        db.create_appointment(
+            request.form.get("appointed_at"),
+            request.form.get("doctor_id"),
+            request.form.get("user_id"),
+            request.form.get("comments")
+        )
+        return redirect(url_for("admin_appointments"))
+    return render_template("admin_appointments.html", appointments=db.get_appointments(), doctors=db.get_doctors(), users=db.get_users())
+
+@app.route("/admin/appointments/delete/<int:id>")
+@admin_required
+def admin_delete_appointment(id):
+    db.delete_appointment(id)
+    return redirect(url_for("admin_appointments"))
+
+@app.route("/admin/appointments/edit/<int:id>", methods=["GET", "POST"])
+@admin_required
+def admin_edit_appointment(id):
+    if request.method == "POST":
+        db.update_appointment(
+            id,
+            request.form.get("appointed_at"),
+            request.form.get("doctor_id"),
+            request.form.get("user_id"),
+            request.form.get("comments")
+        )
+        return redirect(url_for("admin_appointments"))
+    appointment = db.get_appointment_by_id(id)[0]
+    return render_template("admin_appointments_edit.html", appointment=appointment, doctors=db.get_doctors(), users=db.get_users())
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)

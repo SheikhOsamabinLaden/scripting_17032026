@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body style="background-color: white; color: black; font-family: sans-serif; padding: 20px;">
+    <a href="/admin">← Назад</a>
+    <h2>Записи (Appointments)</h2>
+    <table border="1" cellpadding="5" cellspacing="0" style="margin-bottom: 20px;">
+        <tr><th>ID</th><th>Дата/Час</th><th>Лікар ID</th><th>Користувач ID</th><th>Коментарі</th><th>Дії</th></tr>
+        {% for a in appointments %}
+        <tr>
+            <td>{{ a.id }}</td>
+            <td>{{ a.appointed_at }}</td>
+            <td>{{ a.doctor_id }}</td>
+            <td>{{ a.user_id }}</td>
+            <td>{{ a.comments }}</td>
+            <td>
+                <a href="/admin/appointments/edit/{{ a.id }}">Редагувати</a> | 
+                <a href="/admin/appointments/delete/{{ a.id }}" onclick="return confirm('Видалити?');">Видалити</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <h3>Додати</h3>
+    <form method="POST">
+        Час прийому (Формат YYYY-MM-DDTHH:MM): <input type="datetime-local" name="appointed_at" required><br><br>
+        Лікар: <select name="doctor_id" required>{% for d in doctors %}<option value="{{ d.id }}">{{ d.name }}</option>{% endfor %}</select><br><br>
+        Користувач: <select name="user_id" required>{% for u in users %}<option value="{{ u.id }}">{{ u.login }}</option>{% endfor %}</select><br><br>
+        Коментар: <textarea name="comments"></textarea><br><br>
+        <button type="submit">Додати</button>
+    </form>
+</body>
+</html>

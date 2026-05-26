@@ -59,7 +59,6 @@ def api_delete_appointment(app_id):
 @app.route("/api/appointments/doctor/<int:doctor_id>", methods=["GET"])
 def api_doctor_appointments(doctor_id):
     appointments = db.get_appointments()
-    # Повертаємо список зайнятих годин для конкретного лікаря
     booked_times = [app["appointed_at"] for app in appointments if app["doctor_id"] == doctor_id]
     return jsonify(booked_times)
 
@@ -90,7 +89,7 @@ def login():
             session["id"] = user_data["id"]
             session["login"] = login
             session["password"] = password
-            session["is_admin"] = user_data.get("is_admin", False) # Зберігаємо статус адміна
+            session["is_admin"] = user_data.get("is_admin", False) 
             res = make_response(redirect(url_for("index")))
             res.set_cookie("username", login)
             return res
@@ -127,7 +126,6 @@ def admin_required(f):
 def admin_dashboard():
     return render_template("admin.html")
 
-# --- USERS ---
 @app.route("/admin/users", methods=["GET", "POST"])
 @admin_required
 def admin_users():
@@ -160,7 +158,6 @@ def admin_edit_user(id):
     user = db.get_user_by_id(id)[0]
     return render_template("admin_users_edit.html", user=user)
 
-# --- OCCUPATIONS ---
 @app.route("/admin/occupations", methods=["GET", "POST"])
 @admin_required
 def admin_occupations():
@@ -184,7 +181,6 @@ def admin_edit_occupation(id):
     occupation = db.get_occupation_by_id(id)[0]
     return render_template("admin_occupations_edit.html", occupation=occupation)
 
-# --- DOCTORS ---
 @app.route("/admin/doctors", methods=["GET", "POST"])
 @admin_required
 def admin_doctors():
@@ -217,7 +213,6 @@ def admin_edit_doctor(id):
     doctor = db.get_doctor_by_id(id)[0]
     return render_template("admin_doctors_edit.html", doctor=doctor, occupations=db.get_occupations())
 
-# --- APPOINTMENTS ---
 @app.route("/admin/appointments", methods=["GET", "POST"])
 @admin_required
 def admin_appointments():

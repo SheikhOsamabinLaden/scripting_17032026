@@ -2,7 +2,6 @@ let greets_p = document.getElementById("greets");
 const appointmentsList = document.querySelector(".appointments-list");
 
 document.addEventListener('DOMContentLoaded', async function() {
-    // 1. Логіка привітання
     let username = null;
     for (let i of document.cookie.split("; ")) {
         let currCookie = i.split("=");
@@ -12,12 +11,11 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
     greets_p.innerText = username ? `Вітаємо, ${username}` : "Вітаємо!";
 
-    // 2. Реальне завантаження записів з бази
     async function loadAppointments() {
         let res = await fetch(`/api/appointments`);
         
         if (res.status === 401) {
-            window.location.href = "/login"; // Якщо не авторизований
+            window.location.href = "/login";
             return;
         }
 
@@ -30,7 +28,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         }
 
         appointments_json.forEach(app => {
-            // Форматування дати у приємний вигляд
             let dateObj = new Date(app.time);
             let formattedTime = dateObj.toLocaleString("uk-UA", { 
                 day: 'numeric', month: 'long', hour: '2-digit', minute:'2-digit'
@@ -52,11 +49,9 @@ document.addEventListener('DOMContentLoaded', async function() {
         });
     }
 
-    // Викликаємо функцію
     loadAppointments();
 });
 
-// 3. Реальне скасування запису
 window.cancelAppointment = async function(appointmentId) {
     const isConfirmed = confirm("Ви впевнені, що хочете скасувати цей запис?");
     
@@ -71,7 +66,6 @@ window.cancelAppointment = async function(appointmentId) {
                 cardToRemove.remove();
             }
 
-            // Перевіряємо чи порожньо
             const remainingCards = document.querySelectorAll(".appointment-card");
             if (remainingCards.length === 0) {
                 appointmentsList.innerHTML = "<p>У вас поки немає запланованих прийомів.</p>";

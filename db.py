@@ -15,10 +15,6 @@ def check_user(login, password):
         return True
     else: return False
 
-# ==========================================
-# USERS CRUD
-# ==========================================
-
 def create_user(login, password):
     response = supabase.table("users").insert({"login": login, "password": password}).execute()
     return response.data
@@ -48,10 +44,6 @@ def delete_user(user_id):
     return response.data
 
 
-# ==========================================
-# OCCUPATIONS CRUD
-# ==========================================
-
 def create_occupation(name):
     response = supabase.table("occupations").insert({"name": name}).execute()
     return response.data
@@ -68,10 +60,6 @@ def delete_occupation(occupation_id):
     response = supabase.table("occupations").delete().eq("id", occupation_id).execute()
     return response.data
 
-
-# ==========================================
-# DOCTORS CRUD
-# ==========================================
 
 def create_doctor(name, patronym, occupation_id):
     response = supabase.table("doctors").insert({
@@ -102,13 +90,10 @@ def update_doctor(doctor_id, name=None, patronym=None, occupation_id=None):
     response = supabase.table("doctors").update(data_to_update).eq("id", doctor_id).execute()
     return response.data
 
-# ==========================================
-# APPOINTMENTS CRUD
-# ==========================================
 
 def create_appointment(appointed_at, doctor_id, user_id, comments=None):
     response = supabase.table("appointments").insert({
-        "appointed_at": appointed_at, # Note: Should be an ISO 8601 formatted string, e.g., '2023-10-31T14:30:00Z'
+        "appointed_at": appointed_at,
         "doctor_id": doctor_id,
         "user_id": user_id,
         "comments": comments

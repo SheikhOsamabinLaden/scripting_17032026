@@ -4,7 +4,6 @@ const select = document.getElementById("categorySelect");
 let doctors_json = null;
 let occupations_json = null;
 
-// Функція для правильного відмінювання слова "рік"
 function getYearAddition(n) {
     const num = Math.abs(parseInt(n) || 0); 
     const lastDigit = num % 10;
@@ -56,7 +55,6 @@ input.addEventListener("input", handleChange);
 select.addEventListener("change", handleChange);
 
 document.addEventListener('DOMContentLoaded', async function() {
-    // 1. Завантаження лікарів та спеціальностей
     let url_doctors = `/api/doctors`;
     let url_occupations = `/api/occupations`;
     
@@ -87,7 +85,6 @@ document.addEventListener('DOMContentLoaded', async function() {
         select.add(newOption); 
     });
 
-    // 2. Логіка модального вікна
     const modal = document.getElementById("appointmentModal");
     const closeBtn = document.querySelector(".close-btn");
     
@@ -102,7 +99,6 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 });
 
-// Функція для відкриття розкладу
 window.openSchedule = async function(doctorId, doctorName) {
     if (!IS_LOGGED_IN) {
         alert("Для запису потрібно увійти в систему!");
@@ -117,17 +113,17 @@ window.openSchedule = async function(doctorId, doctorName) {
     const container = document.getElementById("scheduleContainer");
     container.innerHTML = "<p>Завантаження розкладу...</p>";
     
-    // Отримуємо вже зайняті слоти
+
     let res = await fetch(`/api/appointments/doctor/${doctorId}`);
     let bookedSlotsRaw = await res.json();
     
-    // Нормалізуємо дати з бази: беремо лише перші 16 символів (YYYY-MM-DDTHH:MM)
+
     let bookedSlots = bookedSlotsRaw.map(slot => slot.substring(0, 16));
     
     generateSchedule(doctorId, bookedSlots);
 }
 
-// Генерація кнопок-слотів часу
+
 function generateSchedule(doctorId, bookedSlots) {
     const container = document.getElementById("scheduleContainer");
     container.innerHTML = "";
@@ -151,19 +147,18 @@ function generateSchedule(doctorId, bookedSlots) {
             for(let m of ['00', '30']) {
                 let timeString = `${h.toString().padStart(2, '0')}:${m}`;
                 
-                // Рядок для порівняння (без секунд)
+
                 let compareString = `${dateString}T${timeString}`; 
-                // Повний рядок для відправки в БД (з секундами)
+
                 let fullDateTime = `${compareString}:00`; 
                 
                 let btn = document.createElement("button");
                 btn.className = "time-slot";
                 btn.innerText = timeString;
                 
-                // Перевіряємо, чи є наш compareString у масиві зайнятих слотів
                 if(bookedSlots.includes(compareString)) {
-                    btn.disabled = true; // Робить кнопку неактивною
-                    btn.classList.add("booked"); // Додає сірий стиль і перекреслення з CSS
+                    btn.disabled = true;
+                    btn.classList.add("booked");
                 } else {
                     btn.onclick = () => bookAppointment(doctorId, fullDateTime);
                 }
@@ -175,7 +170,7 @@ function generateSchedule(doctorId, bookedSlots) {
     }
 }
 
-// Функція бронювання
+
 window.bookAppointment = async function(doctorId, dateTimeString) {
     if (confirm(`Підтверджуєте запис на ${dateTimeString.replace('T', ' ')}?`)) {
         let res = await fetch("/api/appointments", {

@@ -146,6 +146,44 @@ def delete_appointment(appointment_id):
     response = supabase.table("appointments").delete().eq("id", appointment_id).execute()
     return response.data
 
+
+def check_user(login, password):
+    response = supabase.table("users").select("password").eq("login", login).execute()
+    data = response.data
+    if data and data[0]["password"] == password:
+        return True
+    else: 
+        return False
+
+def create_user(login, password, is_admin=False):
+    response = supabase.table("users").insert({
+        "login": login, 
+        "password": password, 
+        "is_admin": is_admin
+    }).execute()
+    return response.data
+
+def update_user(user_id, login=None, password=None, is_admin=None):
+    data_to_update = {}
+    if login: data_to_update["login"] = login
+    if password: data_to_update["password"] = password
+    if is_admin is not None: data_to_update["is_admin"] = is_admin
+    
+    response = supabase.table("users").update(data_to_update).eq("id", user_id).execute()
+    return response.data
+
+def get_occupation_by_id(occ_id):
+    response = supabase.table("occupations").select("*").eq("id", occ_id).execute()
+    return response.data
+
+def get_doctor_by_id(doc_id):
+    response = supabase.table("doctors").select("*").eq("id", doc_id).execute()
+    return response.data
+
+def delete_doctor(doctor_id):
+    response = supabase.table("doctors").delete().eq("id", doctor_id).execute()
+    return response.data
+
 #check_user("bohdan", "")
 #print(get_doctors())
 #print(get_occupations())

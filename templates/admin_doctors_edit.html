@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<body style="background-color: white; color: black; font-family: sans-serif; padding: 20px;">
+    <a href="/admin/doctors">← Назад</a>
+    <h2>Редагувати лікаря #{{ doctor.id }}</h2>
+    <form method="POST">
+        Ім'я: <input type="text" name="name" value="{{ doctor.name }}" required><br><br>
+        По батькові: <input type="text" name="patronym" value="{{ doctor.patronym }}" required><br><br>
+        Спеціальність: 
+        <select name="occupation_id" required>
+            {% for o in occupations %}
+                <option value="{{ o.id }}" {% if o.id == doctor.occupation %}selected{% endif %}>{{ o.name }}</option>
+            {% endfor %}
+        </select><br><br>
+        <button type="submit">Зберегти</button>
+    </form>
+</body>
+</html>

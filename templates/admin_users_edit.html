@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<body style="background-color: white; color: black; font-family: sans-serif; padding: 20px;">
+    <a href="/admin/users">← Назад</a>
+    <h2>Редагувати користувача #{{ user.id }}</h2>
+    <form method="POST">
+        Логін: <input type="text" name="login" value="{{ user.login }}" required><br><br>
+        Пароль: <input type="text" name="password" value="{{ user.password }}" required><br><br>
+        <label>
+            <input type="checkbox" name="is_admin" {% if user.is_admin %}checked{% endif %}> Є адміністратором
+        </label><br><br>
+        <button type="submit">Зберегти</button>
+    </form>
+</body>
+</html>
